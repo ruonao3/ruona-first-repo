@@ -1,0 +1,49 @@
+body {
+    font-family: 'Oswald', sans-serif;
+}
+
+.game-container {
+    margin: 0 auto ;
+    display: grid;
+    grid-template-columns: repeat(3,200px);
+    gap: 10px;
+    justify-content: center;
+
+}
+
+.title {
+    text-align: center;
+}
+
+.turn{
+    text-align: center;
+}
+
+.box {
+    height:200px;
+    width:200px;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.box:hover {
+    background-color: #ccc;
+}
+
+.box.nought{
+    background: url(https://www.freepnglogos.com/uploads/circle-png/blue-circle-transparent-background-png-image-14.png)#A4DBF7 no-repeat;
+    background-position: center center;
+    background-size: 75% 75%;
+}
+
+.box.cross{
+    background: url(https://www.nicepng.com/png/full/2-23575_red-cross-png-file-welsh-flag-st-david.png)#ffb08b no-repeat;
+    background-position: center center;
+    background-size: 75% 75%;
+}
