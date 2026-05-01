@@ -1,9 +1,21 @@
 const squares = document.querySelectorAll(".box");
 const gameContainer = document.querySelector(".game-container");
 const resetBtn = document.getElementById("resetBtn");
+const modal = document.getElementById("gameModal");
+const gameStatus = document.getElementById("gameStatus");
+const gameMessage = document.getElementById("gameMessage");
+const playAgainBtn = document.getElementById("modalResetBtn");
+const closeBtn = document.getElementById("closeModal");
+const loadingScreen = document.getElementById("loading-screen");
+const gameScreen = document.getElementById("game-screen");
+const startBtn = document.getElementById("start-btn");
 let turnStatus = document.getElementById("turnStatus");
+const scoreP1Display = document.getElementById("score-p1");
+const scoreP2Display = document.getElementById("score-p2");
 let playerTurn = 0;
 let gameOver = false;
+let score1 = 0;
+let score2 = 0;
 
 // Winning Combos
 const winningCombos = [
@@ -17,9 +29,21 @@ const winningCombos = [
   [2, 4, 6],
 ];
 
+// Player 1 is always cross
+// Player 2 is always nought
+
 /**
  * Helper Functions
  */
+
+// Show winning/draw modal
+function showModal(title, message) {
+  gameStatus.textContent = title;
+  gameMessage.textContent = message;
+  modal.classList.add("active");
+}
+
+// Close winning modal
 
 // Update the turn status message
 function updateTurnMessage() {
@@ -38,20 +62,24 @@ function updateTurnMessage() {
 function checkGameOver() {
   if (checkWon("nought")) {
     gameOver = true;
+    score2++;
+    scoreP2Display.textContent = score2;
     drawLine(checkWon("nought"));
     setTimeout(() => {
-      alert("Player 2 won");
+      showModal("Player 2 Wins!", "O takes the victory.");
     }, 100);
   } else if (checkWon("cross")) {
     gameOver = true;
+    score1++;
+    scoreP1Display.textContent = score1;
     drawLine(checkWon("cross"));
     setTimeout(() => {
-      alert("Player 1 won");
+      showModal("Player 1 Wins!", "X takes the victory.");
     }, 100);
   } else if (checkDraw()) {
     gameOver = true;
     setTimeout(() => {
-      alert("Draw");
+      showModal("It's a Draw!", "Nobody wins this time.");
     }, 100);
   }
   return gameOver;
@@ -78,8 +106,8 @@ function drawLine(combo) {
   line.setAttribute("x2", x2);
   line.setAttribute("y1", y1);
   line.setAttribute("y2", y2);
-  line.setAttribute("stroke", "#45a832");
-  line.setAttribute("stroke-width", "10");
+  line.setAttribute("stroke", "rgba(255, 255, 255, 0.7)");
+  line.setAttribute("stroke-width", "12");
   line.setAttribute("stroke-linecap", "round");
   svg.appendChild(line);
   gameContainer.appendChild(svg);
@@ -93,6 +121,7 @@ const updateTurn = (turn) => {
     return (turn = 0);
   }
 };
+
 // check if won
 function checkWon(player) {
   for (let i = 0; i < winningCombos.length; i++) {
@@ -138,10 +167,18 @@ function resetGame() {
   if (existingStrike) existingStrike.remove();
   playerTurn = 0;
   gameOver = false;
+  modal.classList.remove("active");
   updateTurnMessage();
 }
 
 function initialiseGame(event) {
+  if (
+    event.target.classList.contains("cross") ||
+    event.target.classList.contains("nought")
+  ) {
+    return;
+  }
+
   if (playerTurn == 0) {
     event.target.classList.add("cross");
     playerTurn = updateTurn(0);
@@ -167,6 +204,17 @@ squares.forEach((square) => {
     }
     initialiseGame(event);
   });
+});
+
+playAgainBtn.addEventListener("click", resetGame);
+
+closeBtn.addEventListener("click", () => {
+  modal.classList.remove("active");
+});
+
+startBtn.addEventListener("click", () => {
+  loadingScreen.classList.remove("active");
+  gameScreen.classList.add("active");
 });
 
 resetBtn.addEventListener("click", resetGame);
