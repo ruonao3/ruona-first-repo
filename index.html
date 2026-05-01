@@ -8,14 +8,28 @@
       href="https://fonts.googleapis.com/css?family=Oswald"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="container">
-      <h1 class="title">
-        <span class="noughts">Noughts</span> &
-        <span class="crosses">Crosses</span>
-      </h1>
+    <section id="loading-screen" class="screen active">
+      <div class="board">
+        <div class="note">
+          <h1>Tic Tac Toe</h1>
+        </div>
+
+        <button id="start-btn" class="start-btn">START GAME</button>
+      </div>
+    </section>
+    <section id="game-screen" class="screen">
+      <div class="scoreboard">
+        <div class="score-box">Player 1: <span id="score-p1">0</span></div>
+        <div class="score-box">Player 2: <span id="score-p2">0</span></div>
+      </div>
+
       <h2 id="turn">
         <span id="turnStatus" class="crosses">Player 1's</span> Turn
       </h2>
@@ -32,21 +46,15 @@
         <div class="box" id="8"></div>
       </div>
 
-      <div class="gameModal">
-        <div class="closeButton"></div>
-        <div class="main">
-          <div class="iconHeader">
-            <span class="floating-icon">⭕</span>
-            <span class="floating-icon">❌</span>
-          </div>
-          <h1 id="gameStatus">Victory!</h1>
-          <h2 id="gameMessage">Player 1 won</h2>
-          <button class="gameReset">Play Again</button>
-        </div>
+      <div id="gameModal" class="gameModal">
+        <span class="closeButton" id="closeModal">&times;</span>
+        <h2 id="gameStatus">Winner!</h2>
+        <p id="gameMessage">Player 1 takes the game.</p>
+        <button class="gameReset" id="modalResetBtn">Play Again</button>
       </div>
 
       <button id="resetBtn">Reset Game</button>
-    </div>
+    </section>
 
     <script src="./main.js"></script>
   </body>
